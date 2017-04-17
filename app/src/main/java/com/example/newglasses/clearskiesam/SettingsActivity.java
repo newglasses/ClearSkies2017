@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
+import static com.example.newglasses.clearskiesam.Constants.SETTINGS_UPDATED;
+
 
 /**
  * Code developed from
@@ -238,7 +240,7 @@ public class SettingsActivity extends PreferenceActivity
 
             // create a broadcast to advise time to update the UI
             //Broadcast an intent back to the ClearSkiesService when work is complete
-            Intent i = new Intent(ClearSkiesService.SETTINGS_UPDATED);
+            Intent i = new Intent(SETTINGS_UPDATED);
             sendBroadcast(i);
 
         }

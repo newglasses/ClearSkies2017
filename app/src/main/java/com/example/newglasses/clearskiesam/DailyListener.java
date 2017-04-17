@@ -33,6 +33,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import static com.example.newglasses.clearskiesam.Constants.NO_INTERNET;
+
 /**
  * Created by newglasses on 09/08/2016
  * Listener to check for internet connectivity at alarm time
@@ -105,7 +107,7 @@ public class DailyListener implements WakefulIntentService.AlarmListener {
                 ConnectivityReceiver.enableReceiver(context);
                 // AlertFlag and update UI
                 ClearSkiesService.noInternet = true;
-                Intent i = new Intent(ClearSkiesService.NO_INTERNET);
+                Intent i = new Intent(NO_INTERNET);
                 context.sendBroadcast(i);
             }
         } else {
@@ -114,7 +116,7 @@ public class DailyListener implements WakefulIntentService.AlarmListener {
             ConnectivityReceiver.enableReceiver(context);
             // AlertFlag and update UI
             ClearSkiesService.noInternet = true;
-            Intent i = new Intent(ClearSkiesService.NO_INTERNET);
+            Intent i = new Intent(NO_INTERNET);
             context.sendBroadcast(i);
         }
     }

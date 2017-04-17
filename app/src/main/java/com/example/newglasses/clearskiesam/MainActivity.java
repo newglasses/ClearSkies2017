@@ -27,6 +27,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.util.Calendar;
 
+import static com.example.newglasses.clearskiesam.Constants.NO_INTERNET;
+
 public class MainActivity extends AppCompatActivity {
 
     // for logging
@@ -132,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Updating...", Toast.LENGTH_LONG).show();
             } else {
                 ClearSkiesService.noInternet = true;
-                Intent i = new Intent(ClearSkiesService.NO_INTERNET);
+                Intent i = new Intent(NO_INTERNET);
                 sendBroadcast(i);
             }
             return true;

@@ -470,12 +470,7 @@ public class ClearSkiesService extends IntentService {
             // Clear data from the ArrayLists used to update the UI
             Utility.clearArrayLists();
 
-            // Repopulate the ArrayLists used to update the UI
-            ApplicationController.getInstance().getTextFirstArray().add(NEXT_UPDATE);
-            ApplicationController.getInstance().getTextSecondArray().add(nextUpdate);
-            ApplicationController.getInstance().getTextThirdArray().add(alarmPref);
-
-            ApplicationController.getInstance().getStyleArray().add("0");
+            Utility.updateArrayLists(NEXT_UPDATE, nextUpdate, alarmPref, 0);
 
             // Notify the CustomAdapter that the dataset has changed
             MainActivity.testBaseCustomAdapter.notifyDataSetChanged();
@@ -529,17 +524,8 @@ public class ClearSkiesService extends IntentService {
             Utility.clearArrayLists();
 
             // REPOPULATE THE ARRAYLISTS DEPENDING ON RESULTS
-            ApplicationController.getInstance().getTextFirstArray().add(textLocation);
-            ApplicationController.getInstance().getTextFirstArray().add(NEXT_UPDATE);
-
-            ApplicationController.getInstance().getTextSecondArray().add("Nothing");
-            ApplicationController.getInstance().getTextSecondArray().add(nextUpdate);
-
-            ApplicationController.getInstance().getTextThirdArray().add("To Declare");
-            ApplicationController.getInstance().getTextThirdArray().add(alarmPref);
-
-            ApplicationController.getInstance().getStyleArray().add("0");
-            ApplicationController.getInstance().getStyleArray().add("1");
+            Utility.updateArrayLists(textLocation, "Nothing", "To Declare", 0);
+            Utility.updateArrayLists(NEXT_UPDATE, nextUpdate, alarmPref, 1);
 
             MainActivity.testBaseCustomAdapter.notifyDataSetChanged();
         }
@@ -573,14 +559,7 @@ public class ClearSkiesService extends IntentService {
             Utility.clearArrayLists();
 
             // REPOPULATE THE ARRAYLISTS DEPENDING ON RESULTS
-
-            ApplicationController.getInstance().getTextFirstArray().add("Network");
-
-            ApplicationController.getInstance().getTextSecondArray().add("Access");
-
-            ApplicationController.getInstance().getTextThirdArray().add("Required");
-
-            ApplicationController.getInstance().getStyleArray().add("0");
+            Utility.updateArrayLists("Network", "Access", "Required", 0);
 
             MainActivity.testBaseCustomAdapter.notifyDataSetChanged();
         }
@@ -625,17 +604,8 @@ public class ClearSkiesService extends IntentService {
             Utility.clearArrayLists();
 
             // REPOPULATE THE ARRAYLISTS DEPENDING ON RESULTS
-            ApplicationController.getInstance().getTextFirstArray().add("Currently");
-            ApplicationController.getInstance().getTextFirstArray().add(NEXT_UPDATE);
-
-            ApplicationController.getInstance().getTextSecondArray().add("Out");
-            ApplicationController.getInstance().getTextSecondArray().add(nextUpdate);
-
-            ApplicationController.getInstance().getTextThirdArray().add("of Range");
-            ApplicationController.getInstance().getTextThirdArray().add(alarmPref);
-
-            ApplicationController.getInstance().getStyleArray().add("0");
-            ApplicationController.getInstance().getStyleArray().add("1");
+            Utility.updateArrayLists("Currently", "Out", "of Range", 0);
+            Utility.updateArrayLists(NEXT_UPDATE, nextUpdate, alarmPref, 1);
 
             MainActivity.testBaseCustomAdapter.notifyDataSetChanged();
 
@@ -716,22 +686,9 @@ public class ClearSkiesService extends IntentService {
             Utility.clearArrayLists();
 
             // REPOPULATE THE ARRAYLISTS DEPENDING ON RESULTS
-            ApplicationController.getInstance().getTextFirstArray().add(textLocation);
-            ApplicationController.getInstance().getTextFirstArray().add(weatherSummary);
-            ApplicationController.getInstance().getTextFirstArray().add(NEXT_UPDATE);
-
-            ApplicationController.getInstance().getTextSecondArray().add("Aurora");
-            ApplicationController.getInstance().getTextSecondArray().add(sunsetTonight);
-            ApplicationController.getInstance().getTextSecondArray().add(nextUpdate);
-
-            ApplicationController.getInstance().getTextThirdArray().add(auroraForecast);
-            ApplicationController.getInstance().getTextThirdArray().add(sunriseTom);
-            ApplicationController.getInstance().getTextThirdArray().add(alarmPref);
-
-            ApplicationController.getInstance().getStyleArray().add("0");
-            ApplicationController.getInstance().getStyleArray().add("1");
-            ApplicationController.getInstance().getStyleArray().add("1");
-
+            Utility.updateArrayLists(textLocation, "Aurora", auroraForecast, 0);
+            Utility.updateArrayLists(weatherSummary, sunsetTonight, sunriseTom, 1);
+            Utility.updateArrayLists(NEXT_UPDATE, nextUpdate, alarmPref, 1);
             MainActivity.testBaseCustomAdapter.notifyDataSetChanged();
 
             // LOOKING AT THE GATHERED DATA FOR LOGGING
@@ -816,22 +773,9 @@ public class ClearSkiesService extends IntentService {
             Utility.clearArrayLists();
 
             // REPOPULATE THE ARRAYLISTS DEPENDING ON RESULTS
-
-            ApplicationController.getInstance().getTextFirstArray().add(textLocation);
-            ApplicationController.getInstance().getTextFirstArray().add(weatherSummary);
-            ApplicationController.getInstance().getTextFirstArray().add(NEXT_UPDATE);
-
-            ApplicationController.getInstance().getTextSecondArray().add("ISS");
-            ApplicationController.getInstance().getTextSecondArray().add(sunsetTonight);
-            ApplicationController.getInstance().getTextSecondArray().add(nextUpdate);
-
-            ApplicationController.getInstance().getTextThirdArray().add(issForecast);
-            ApplicationController.getInstance().getTextThirdArray().add(sunriseTom);
-            ApplicationController.getInstance().getTextThirdArray().add(alarmPref);
-
-            ApplicationController.getInstance().getStyleArray().add("0");
-            ApplicationController.getInstance().getStyleArray().add("1");
-            ApplicationController.getInstance().getStyleArray().add("1");
+            Utility.updateArrayLists(textLocation, "ISS", issForecast, 0);
+            Utility.updateArrayLists(weatherSummary, sunsetTonight, sunriseTom, 1);
+            Utility.updateArrayLists(NEXT_UPDATE, nextUpdate, alarmPref, 1);
 
             MainActivity.testBaseCustomAdapter.notifyDataSetChanged();
 
@@ -842,11 +786,9 @@ public class ClearSkiesService extends IntentService {
                 }
             }
         }
-
         public IssSuccessReceiver () {
             super();
         }
-
     }
 
     // Starts if AURORA_ISS Broadcast is received from the ClearSkiesService:
@@ -919,26 +861,10 @@ public class ClearSkiesService extends IntentService {
             Utility.clearArrayLists();
 
             // REPOPULATE THE ARRAYLISTS DEPENDING ON RESULTS
-
-            ApplicationController.getInstance().getTextFirstArray().add(textLocation);
-            ApplicationController.getInstance().getTextFirstArray().add(textLocation);
-            ApplicationController.getInstance().getTextFirstArray().add(weatherSummary);
-            ApplicationController.getInstance().getTextFirstArray().add("NEXT UPDATE");
-
-            ApplicationController.getInstance().getTextSecondArray().add("Aurora");
-            ApplicationController.getInstance().getTextSecondArray().add("ISS");
-            ApplicationController.getInstance().getTextSecondArray().add(sunsetTonight);
-            ApplicationController.getInstance().getTextSecondArray().add(nextUpdate);
-
-            ApplicationController.getInstance().getTextThirdArray().add(auroraForecast);
-            ApplicationController.getInstance().getTextThirdArray().add(issForecast);
-            ApplicationController.getInstance().getTextThirdArray().add(sunriseTom);
-            ApplicationController.getInstance().getTextThirdArray().add(alarmPref);
-
-            ApplicationController.getInstance().getStyleArray().add("0");
-            ApplicationController.getInstance().getStyleArray().add("0");
-            ApplicationController.getInstance().getStyleArray().add("1");
-            ApplicationController.getInstance().getStyleArray().add("1");
+            Utility.updateArrayLists(textLocation, "Aurora", auroraForecast, 0);
+            Utility.updateArrayLists(textLocation, "ISS", issForecast, 0);
+            Utility.updateArrayLists(weatherSummary, sunsetTonight, sunriseTom, 1);
+            Utility.updateArrayLists(NEXT_UPDATE, nextUpdate, alarmPref, 1);
 
             MainActivity.testBaseCustomAdapter.notifyDataSetChanged();
 
@@ -949,11 +875,9 @@ public class ClearSkiesService extends IntentService {
                 }
             }
         }
-
         public AuroraIssReceiver () {
             super();
         }
-
     }
 
     /***********************************************************************************************

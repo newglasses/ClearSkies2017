@@ -1,0 +1,19 @@
+{
+  "name": "clear-skies",
+  "version": "1.0.0",
+  "description": "web server for clear skies app",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/newglasses/ClearSkies2017.git"
+  },
+  "author": "newglasses",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/newglasses/ClearSkies2017/issues"
+  },
+  "homepage": "https://github.com/newglasses/ClearSkies2017#readme"
+}

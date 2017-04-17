@@ -7,8 +7,14 @@ package com.example.newglasses.clearskiesam;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -33,6 +39,7 @@ public class WebRequest extends IntentService {
 
     // for logging
     private final String LOG_TAG = WebRequest.class.getSimpleName();
+    private static SharedPreferences sharedPrefs;
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
@@ -41,6 +48,7 @@ public class WebRequest extends IntentService {
         // ArrayList<HashMap<String, String>> queryParams = new ArrayList<HashMap<String, String>>();
         HashMap<String, String> queryParams = new HashMap<String, String>();
 
+        // default demo data
         queryParams.put("lat", "54.640891");
         queryParams.put("lng", "-5.941169100000025");
         queryParams.put("aurora", "true");
@@ -48,6 +56,13 @@ public class WebRequest extends IntentService {
 
         String webResponse = makeWebServiceCall(DEMO_PATHNAME, queryParams, POST);
         Log.e(LOG_TAG, "Web response: " + webResponse);
+
+        try {
+            updateSharedPrefs(webResponse);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         Intent i = new Intent(WEB_REQUEST_DONE);
         this.sendBroadcast(i);
     }
@@ -123,17 +138,33 @@ public class WebRequest extends IntentService {
                 result.append("?");
                 first = false;
             }
-
             else {
                 result.append("&");
             }
-
             result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
             result.append("=");
             result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
         }
 
         return result.toString();
+    }
+
+    private void updateSharedPrefs(String response) throws JSONException {
+
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        JSONObject object = new JSONObject(response);
+
+        JSONObject results = object.getJSONArray("_results").getJSONObject(0);
+        String weatherTier = results.getString("weatherTier");
+        String onForecast = results.getString("onForecast");
+
+        Log.e(LOG_TAG, "Inside updateSharedPrefs \n weatherTier: " + weatherTier +
+                        " \n onForecast " + onForecast);
+
+        // parse the result & apply
+        sharedPrefs.edit().putInt("weatherTier", Integer.valueOf(weatherTier)).apply();
+        sharedPrefs.edit().putString("onForecast", onForecast).apply();
     }
 
     // Validates resource references inside Android XML files

@@ -81,7 +81,7 @@ public class ClearSkiesService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
 
-        Log.i(LOG_TAG, "onHandleIntent() ClearSkiesService started");
+        Log.i(LOG_TAG, "Service started");
 
         // To begin, clear previous results of background work
         ApplicationController.getInstance().getDataToDisplay().clear();
@@ -103,24 +103,27 @@ public class ClearSkiesService extends IntentService {
         demoPref = sharedPrefs.getBoolean("demo", false);
         Log.e(LOG_TAG, "demoPref: " + demoPref);
 
-        // If location pref is roaming OR default (roaming), then start the GPS Service
-        if (locationPref.equals("1") || locationPref.equals("-1")) {
+        // If in demo mode
+        if (demoPref) {
+            startWebRequestService(this);
+
+            // If location pref is roaming OR default (roaming), then start the GPS Service
+        } else if (locationPref.equals("1") || locationPref.equals("-1")) {
 
             Log.e(LOG_TAG, "locationPref = Roaming");
             startGPSService(this);
 
-        // If location is fixed ** THIS IS NOT CURRENTLY AN OPTION **
+                // If location is fixed ** THIS IS NOT CURRENTLY AN OPTION **
         } else if (locationPref.equals("0")) {
             Log.e(LOG_TAG, "locationPref = Fixed");
-            // Check the device coordinates are in the UK
+                // Check the device coordinates are in the UK
             boolean insideUK = sharedPrefs.getBoolean("withinBounds", false);
             Log.e(LOG_TAG, "fixed coords withinBounds? " + insideUK);
             // If fixed coords are not inside the UK, finish service and update UI
             if (!insideUK) {
                 Log.e(LOG_TAG, "Out of Bounds - Device currently not in the UK");
                 Intent i = new Intent(OUT_OF_RANGE);
-                sendBroadcast(i);
-            // If fixed coords are inside the UK, continue the service
+                sendBroadcast(i);// If fixed coords are inside the UK, continue the service
             } else {
                 if (insideUK) {
                     startGPSLocationService(this);
@@ -191,8 +194,7 @@ public class ClearSkiesService extends IntentService {
                 e.printStackTrace();
             }
             // start the weather service to check for clear skies
-            // startWeatherService(context);
-            startWebRequestService(context);
+            startWeatherService(context);
         }
         public GPSLocationReceiver () {
             super();
@@ -200,6 +202,7 @@ public class ClearSkiesService extends IntentService {
     }
 
     // Starts if WEB_Request_DONE Broadcast is received from the WebService:
+    // Currently only deals with demo
     public static class WebRequestReceiver extends BroadcastReceiver {
 
         // For logging
@@ -211,42 +214,16 @@ public class ClearSkiesService extends IntentService {
             Log.e(LOG_TAG, "My web request receiver received a broadcast");
 
             // Receive the json response from the WebRequestIntentService
+            Log.e(LOG_TAG, "IN DEMO MODE");
 
+            // launch the intent to update the UI
+            Intent i = new Intent(ISS);
+            context.sendBroadcast(i);
 
-
-            // FOR DEMO MODE
-            if (demoPref) {
-                Log.e(LOG_TAG, "IN DEMO DEMO MODE");
-
-                // parse the result & apply
-                sharedPrefs.edit().putString("onForecast", "1471558560").apply();
-                sharedPrefs.edit().putInt("weatherTier", 0).apply();
-
-                // launch the intent to update the UI
-                Intent i = new Intent(ISS);
-                context.sendBroadcast(i);
-
-                // raise a notification regardless of weather result
-                Intent iN = new Intent(MAKE_NOTIFICATION);
-                context.sendBroadcast(iN);
-
-            }
-
+            Intent iN = new Intent(MAKE_NOTIFICATION);
+            context.sendBroadcast(iN);
             // Access user event preferences
             sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-
-            auroraPref = sharedPrefs.getBoolean("aurora", true);
-            issPref = sharedPrefs.getBoolean("iss", true);
-
-            try {
-                String weatherData = parseJSON(context, "Forecast_IO_File");
-                weatherSuccess = parseWeather(weatherData, context);
-                Log.e(LOG_TAG, "Weather is returned as a success: " + weatherSuccess);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 
         }
         public WebRequestReceiver () {
@@ -280,32 +257,8 @@ public class ClearSkiesService extends IntentService {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            // FOR DEMO MODE
-            if (demoPref) {
-                Log.e(LOG_TAG, "IN DEMO MODE");
-                // update UI with successful ISS regardless of weather result
 
-                /*** USING OWN SERVER ***/
-                // go to the server
-                /*
-                StringBuilder sbForecastURL = new StringBuilder()
-                        .append(FORECAST_BASE_URL)
-                        .append(apiKey)
-                        .append(lat)
-                        .append(separator)
-                        .append(lng);
-                String forecastURL = sbForecastURL.toString();
-                */
-
-                sharedPrefs.edit().putString("onForecast", "1471558560").apply();
-                sharedPrefs.edit().putInt("weatherTier", 0).apply();
-                Intent i = new Intent(ISS);
-                context.sendBroadcast(i);
-                // raise a notification regardless of weather result
-                Intent iN = new Intent(MAKE_NOTIFICATION);
-                context.sendBroadcast(iN);
-
-            } else if (weatherSuccess) {
+            if (weatherSuccess) {
                     if (auroraPref){
                         Log.e(LOG_TAG, "Aurora pref is: " + auroraPref);
                         startAuroraWatchService(context);
@@ -314,7 +267,7 @@ public class ClearSkiesService extends IntentService {
                         startOpenNotifyService(context);
                     } else {
                         Log.e(LOG_TAG, "No events selected in prefs");
-                        // end the service and upate the UI
+                        // end the service and update the UI
                         Intent i = new Intent(NOTHING_TO_DECLARE);
                         context.sendBroadcast(i);
                     }

@@ -27,42 +27,10 @@ public class WeatherService extends IntentService {
     // for logging
     private final String LOG_TAG = WeatherService.class.getSimpleName();
 
-    // Used to identify when the IntentService finishes
-    public static final String WEATHER_DONE = "com.example.newglasses.amclearskies.WEATHER_DONE";
-
-    private String location, alarm;
-    private boolean iss, aurora;
-    private boolean weatherResult = false, openNotifyResult = false;
-
     protected static SharedPreferences sharedPrefs;
-
-    private String flatlng = "54.640891,-5.941169100000025"; // split these out
-
-    private String forecastListItem, forecastDeterminants;
-    private String timeFinal;
-    private String openNotifyListItem;
-
-    // These are the names of the JSON objects that need to be extracted.
-    final String FIO_DAILY = "daily";
-    final String FIO_CURRENTLY = "currently";
-
-    // These are the names of the JSON arrays that need to be extracted.
-    final String FIO_DAILY_DATA = "data";
-
-    // These are the names of the Strings that need to be extracted.
-
-    final String FIO_DAILY_SUNSET = "sunsetTime";
-    final String FIO_DAILY_SUNRISE = "sunriseTime";
-    final String FIO_CURRENTLY_SUMMARY = "summary";
-    final String FIO_CURRENTLY_CLOUDCOVER = "cloudCover";
-    final String FIO_CURRENTLY_VISIBILITY = "visibility";
-    final String FIO_CURRENTLY_PRECIPPROB = "precipProbability";
-    final String FIO_CURRENTLY_HUMIDPROB = "humidity";
-
 
     @Override
     protected void onHandleIntent(Intent intent) {
-
 
         Log.e(LOG_TAG, "Service Started");
 
@@ -100,7 +68,7 @@ public class WeatherService extends IntentService {
         Log.e(LOG_TAG, "Service Stopped");
 
         // Broadcast an intent back to Main when file is downloaded
-        Intent i = new Intent(WEATHER_DONE);
+        Intent i = new Intent(Constants.WEATHER_DONE);
         this.sendBroadcast(i);
     }
 

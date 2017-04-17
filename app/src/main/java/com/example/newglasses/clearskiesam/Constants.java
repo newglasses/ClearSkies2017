@@ -10,9 +10,14 @@ public class Constants {
     public final static int POST = 2;
 
     public final static String DEMO_PATHNAME = "http://192.168.1.70:8080/api/demo";
+    public final static String DEMO_LAT = "54.640891";
+    public final static String DEMO_LNG = "-5.941169100000025";
+    public final static String DEMO_AURORA = "true";
+    public final static String DEMO_ISS = "true";
 
     public static final String WEB_REQUEST_DONE = "com.example.newglasses.amclearskies.WEB_REQUEST_DONE";
-
+    public static final String WEATHER_DONE = "com.example.newglasses.amclearskies.WEATHER_DONE";
+    public static final String GPS_DONE = "com.example.newglasses.amclearskies.GPS_DONE";
     // Defining Broadcasts:
     // Used to notify the ClearSkiesService of the outcome of the background work
     // Depending on the outcome, the ClearSkiesService prepares the UI data accordingly

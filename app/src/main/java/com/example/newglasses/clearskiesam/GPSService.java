@@ -1,6 +1,7 @@
 package com.example.newglasses.clearskiesam;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
@@ -42,9 +43,6 @@ public class GPSService extends IntentService implements LocationListener, Googl
     // for logging
     private final String LOG_TAG = GPSService.class.getSimpleName();
 
-    // Used to identify when the IntentService finishes
-    public static final String GPS_DONE = "com.example.newglasses.amclearskies.GPS_DONE";
-
     private static final int MY_PERMISSION_REQUEST_FINE_LOCATION = 101;
 
     SharedPreferences sharedPrefs;
@@ -61,7 +59,7 @@ public class GPSService extends IntentService implements LocationListener, Googl
     @Override
     protected void onHandleIntent(Intent intent) {
 
-        Log.e(LOG_TAG, "GPS Service Started");
+        Log.e(LOG_TAG, "Service Started");
 
         if (ApplicationController.mPlayServices != ApplicationController.PlayServices.UNAVAILABLE) {
 
@@ -121,7 +119,7 @@ public class GPSService extends IntentService implements LocationListener, Googl
                 .build();
     }
 
-    private void requestLocationUpdates() {
+    private void requestLocationUpdates(/*Activity context*/) {
 
         // get the gps coords of the device using the location listener
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, locationRequest, this);
@@ -133,10 +131,11 @@ public class GPSService extends IntentService implements LocationListener, Googl
         // Need to work out how to request permissions as it is not possible to do so directly from an IntentService
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            // Access fine location implies coarse too
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                // Access fine location implies coarse too
-                // this.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSION_REQUEST_FINE_LOCATION);
-            } else {
+                // ActivityCompat.requestPermissions(context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSION_REQUEST_FINE_LOCATION);
+            }
+            else {
                 // ...
                 // Possible solution: http://stackoverflow.com/questions/30141631/send-location-updates-to-intentservice
             }
@@ -169,7 +168,7 @@ public class GPSService extends IntentService implements LocationListener, Googl
         }
 
         //Broadcast an intent back to the ClearSkiesService when work is complete
-        Intent i = new Intent(GPS_DONE);
+        Intent i = new Intent(Constants.GPS_DONE);
         sendBroadcast(i);
     }
 

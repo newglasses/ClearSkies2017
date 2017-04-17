@@ -11,10 +11,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.util.Log;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -30,11 +28,6 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.net.ssl.HttpsURLConnection;
 
-import static com.example.newglasses.clearskiesam.Constants.DEMO_PATHNAME;
-import static com.example.newglasses.clearskiesam.Constants.GET;
-import static com.example.newglasses.clearskiesam.Constants.POST;
-import static com.example.newglasses.clearskiesam.Constants.WEB_REQUEST_DONE;
-
 public class WebRequest extends IntentService {
 
     // for logging
@@ -49,12 +42,12 @@ public class WebRequest extends IntentService {
         HashMap<String, String> queryParams = new HashMap<String, String>();
 
         // default demo data
-        queryParams.put("lat", "54.640891");
-        queryParams.put("lng", "-5.941169100000025");
-        queryParams.put("aurora", "true");
-        queryParams.put("iss", "true");
+        queryParams.put("lat", Constants.DEMO_LAT);
+        queryParams.put("lng", Constants.DEMO_LNG);
+        queryParams.put("aurora", Constants.DEMO_AURORA);
+        queryParams.put("iss", Constants.DEMO_ISS);
 
-        String webResponse = makeWebServiceCall(DEMO_PATHNAME, queryParams, POST);
+        String webResponse = makeWebServiceCall(Constants.DEMO_PATHNAME, queryParams, Constants.POST);
         Log.e(LOG_TAG, "Web response: " + webResponse);
 
         try {
@@ -63,7 +56,7 @@ public class WebRequest extends IntentService {
             e.printStackTrace();
         }
 
-        Intent i = new Intent(WEB_REQUEST_DONE);
+        Intent i = new Intent(Constants.WEB_REQUEST_DONE);
         this.sendBroadcast(i);
     }
 
@@ -90,9 +83,9 @@ public class WebRequest extends IntentService {
             conn.setReadTimeout(15000);
             conn.setConnectTimeout(15000);
 
-            if (requestMethod == POST) {
+            if (requestMethod == Constants.POST) {
                 conn.setRequestMethod("POST");
-            } else if (requestMethod == GET) {
+            } else if (requestMethod == Constants.GET) {
                 conn.setRequestMethod("GET");
             }
 

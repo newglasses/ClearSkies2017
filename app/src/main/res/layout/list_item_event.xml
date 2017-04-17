@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Layout for event list item -->
+<!-- listPreferredItemHeight ensures the list item is a good size to tap -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:minHeight="?android:attr/listPreferredItemHeight"
+    android:orientation="horizontal"
+    android:background="@drawable/event_touch_selector">
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="50dp"
+        android:orientation="vertical"
+        android:background="@drawable/cs_logo"
+        android:layout_weight="2">
+
+        <TextView
+            android:id="@+id/list_first"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:fontFamily="sans-serif-condensed"
+            android:textColor="@color/white"
+            android:text="TOP"/>
+
+        <TextView
+            android:id="@+id/list_second"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="36sp"
+            android:fontFamily="sans-serif-light"
+            android:textColor="@color/white"
+            android:text="Mid"/>
+
+        <TextView
+            android:id="@+id/list_third"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="26sp"
+            android:layout_marginLeft="0dp"
+            android:text="Bottom" />
+
+    </LinearLayout>
+
+</LinearLayout>

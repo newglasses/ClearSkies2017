@@ -1,0 +1,89 @@
+<!--
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:name="com.example.newglasses.clearskiesam.MainActivityFragment"
+    tools:context="com.example.newglasses.clearskiesam.MainActivityFragment"
+    tools:layout="@android:layout/list_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
+
+    -->
+
+    <!-- For startup screen define two RelativeLayouts within one FrameLayout -->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context="com.example.newglasses.clearskiesam.MainActivity">
+
+    <RelativeLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/list_date"
+                android:padding="@dimen/place_autocomplete_button_padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/cs_black"
+                android:fontFamily="sans-serif-condensed"
+                android:textStyle="bold"
+                android:paddingLeft="80dp"
+                android:textSize="20sp"
+                android:textColor="@color/list_date"/>
+
+            <ListView
+                style="@style/ForecastListStyle"
+                android:id="@+id/listView"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:background="@color/cs_black"
+                android:divider="@null" />
+
+        </LinearLayout>
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progress_bar"
+            android:progressDrawable="@drawable/circular_progress_view"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"/>
+
+
+    </RelativeLayout>
+
+    <!--Below is the transparent layout positioned at startup -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/overlay_background"
+        android:id="@+id/top_layout"
+        >
+
+        <ImageView
+            android:id="@+id/ivInstruction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentBottom="true"
+            android:paddingTop="25dp"
+            android:layout_marginBottom="15dp"
+            android:clickable="false"
+            android:paddingLeft="30dip"
+            android:scaleType="center"
+            android:src="@drawable/cs_welcome"
+            android:hapticFeedbackEnabled="true"/>
+
+    </RelativeLayout>
+
+</FrameLayout>

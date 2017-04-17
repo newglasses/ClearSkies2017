@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.newglasses.clearskiesam" >
+
+    <!-- CLEAR SKIES PERMISSIONS -->
+
+    <!-- Set an alarm -->
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+    <!-- Access the Internet -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Access coarse location data -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- Access fine location data -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- ActivityManager -->
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />
+    <!-- Access Internet Connectivity State -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- Occurrence of reboot  -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!-- Wake lock -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- Vibrate -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application
+        android:name=".ApplicationController"
+        android:allowBackup="true"
+        android:icon="@drawable/cs_smaller_white"
+        android:label="@string/app_name"
+        android:theme="@style/ForecastTheme" >
+
+        <!-- MAIN ACTIVITY -->
+        <activity
+            android:name=".MainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- SETTINGS ACTIVITY -->
+        <activity
+            android:name=".SettingsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/SettingsTheme"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.newglasses.clearskiesam.MainActivity" />
+        </activity>
+
+        <!-- INTENT SERVICES -->
+
+        <service
+            android:name=".ClearSkiesService"
+            android:exported="false" />
+        <service
+            android:name=".GPSService"
+            android:exported="false" />
+        <service
+            android:name=".GPSLocationService"
+            android:exported="false" />
+        <service
+            android:name=".AuroraWatchService"
+            android:exported="false" />
+        <service
+            android:name=".OpenNotifyService"
+            android:exported="false" />
+        <service
+            android:name=".WeatherService"
+            android:exported="false" />
+
+        <service
+            android:name=".WebRequest"
+            android:exported="false" />
+
+        <service android:name=".BackgroundService" />
+
+        <!-- ClearSkiesService INNER CLASS BROADCAST RECEIVERS AND INTENT FILTERS -->
+
+        <receiver
+            android:name=".ClearSkiesService$GPSRetrievedReceiver"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="com.example.newglasses.amclearskies.GPS_DONE" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".ClearSkiesService$GPSLocationReceiver"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="com.example.newglasses.amclearskies.LOCATION_DONE" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".ClearSkiesService$AuroraDownloadReceiver"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="com.example.newglasses.amclearskies.AURORA_DONE" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".ClearSkiesService$OpenNotifyDownloadReceiver"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="com.example.newglasses.amclearskies.OPEN_NOTIFY_DONE" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".ClearSkiesService$WeatherDownloadReceiver"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="com.example.newglasses.amclearskies.WEATHER_DONE" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".ClearSkiesService$WebRequestReceiver"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="com.example.newglasses.amclearskies.WEB_REQUEST_DONE" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".ClearSkiesService$SettingsUpdatedReceiver"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="com.example.newglasses.amclearskies.SETTINGS_UPDATED" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".ClearSkiesService$NothingToDeclareReceiver"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="com.example.newglasses.amclearskies.NOTHING_TO_DECLARE" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".ClearSkiesService$NoInternetReceiver"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="com.example.newglasses.amclearskies.NO_INTERNET" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".ClearSkiesService$OutOfRangeReceiver"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="com.example.newglasses.amclearskies.OUT_OF_RANGE" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".ClearSkiesService$AuroraSuccessReceiver"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="com.example.newglasses.amclearskies.AURORA" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".ClearSkiesService$AuroraIssReceiver"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="com.example.newglasses.amclearskies.AURORA_ISS" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".ClearSkiesService$IssSuccessReceiver"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="com.example.newglasses.amclearskies.ISS" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".ClearSkiesService$MakeNotificationReceiver"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="com.example.newglasses.amclearskies.MAKE_NOTIFICATION" />
+            </intent-filter>
+        </receiver>
+
+        <!-- AlarmReceiver BROADCAST RECEIVER AND INTENT FILTER -->
+
+        <receiver android:name="com.example.newglasses.clearskiesam.AlarmReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="com.example.newglasses.clearskiesam.wakeful"
+                android:resource="@xml/wakeful" />
+        </receiver>
+
+        <!-- ConnectivityReceiver BROADCAST RECEIVER AND INTENT FILTER -->
+
+        <receiver
+            android:name=".ConnectivityReceiver"
+            android:enabled="false" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
+
+    </application>
+
+</manifest>

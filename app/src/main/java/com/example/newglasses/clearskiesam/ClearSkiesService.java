@@ -30,15 +30,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-
-import static com.example.newglasses.clearskiesam.Constants.AURORA;
-import static com.example.newglasses.clearskiesam.Constants.AURORA_ISS;
-import static com.example.newglasses.clearskiesam.Constants.ISS;
-import static com.example.newglasses.clearskiesam.Constants.MAKE_NOTIFICATION;
-import static com.example.newglasses.clearskiesam.Constants.NEXT_UPDATE;
-import static com.example.newglasses.clearskiesam.Constants.NOTHING_TO_DECLARE;
-import static com.example.newglasses.clearskiesam.Constants.OUT_OF_RANGE;
 
 /**
  * Created by newglasses on 02/08/2016.
@@ -75,8 +66,6 @@ public class ClearSkiesService extends IntentService {
     // SharedPref variables
     private static String locationPref, alarmPref;
     private static boolean issPref, auroraPref, demoPref;
-
-
 
     @Override
     protected void onHandleIntent(Intent intent) {
@@ -122,7 +111,7 @@ public class ClearSkiesService extends IntentService {
             // If fixed coords are not inside the UK, finish service and update UI
             if (!insideUK) {
                 Log.e(LOG_TAG, "Out of Bounds - Device currently not in the UK");
-                Intent i = new Intent(OUT_OF_RANGE);
+                Intent i = new Intent(Constants.OUT_OF_RANGE);
                 sendBroadcast(i);// If fixed coords are inside the UK, continue the service
             } else {
                 if (insideUK) {
@@ -163,7 +152,7 @@ public class ClearSkiesService extends IntentService {
             } else {
                 // if device is outside the UK, finish the service and update the UI
                 Log.e(LOG_TAG, "Out of Bounds - Device currently not in the UK");
-                Intent i  = new Intent(OUT_OF_RANGE);
+                Intent i  = new Intent(Constants.OUT_OF_RANGE);
                 context.sendBroadcast(i);
             }
         }
@@ -217,10 +206,10 @@ public class ClearSkiesService extends IntentService {
             Log.e(LOG_TAG, "IN DEMO MODE");
 
             // launch the intent to update the UI
-            Intent i = new Intent(ISS);
+            Intent i = new Intent(Constants.ISS);
             context.sendBroadcast(i);
 
-            Intent iN = new Intent(MAKE_NOTIFICATION);
+            Intent iN = new Intent(Constants.MAKE_NOTIFICATION);
             context.sendBroadcast(iN);
             // Access user event preferences
             sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -268,14 +257,14 @@ public class ClearSkiesService extends IntentService {
                     } else {
                         Log.e(LOG_TAG, "No events selected in prefs");
                         // end the service and update the UI
-                        Intent i = new Intent(NOTHING_TO_DECLARE);
+                        Intent i = new Intent(Constants.NOTHING_TO_DECLARE);
                         context.sendBroadcast(i);
                     }
 
             } else {
                 Log.e(LOG_TAG, "No Clear Skies or No Events Selected");
                 // end the service and upate the UI
-                Intent i = new Intent(NOTHING_TO_DECLARE);
+                Intent i = new Intent(Constants.NOTHING_TO_DECLARE);
                 context.sendBroadcast(i);
 
             /* FOR TESTING PURPOSES:
@@ -315,15 +304,15 @@ public class ClearSkiesService extends IntentService {
                 startOpenNotifyService(context);
             } else {
                 if (auroraSuccess) {
-                    Intent i = new Intent(AURORA);
+                    Intent i = new Intent(Constants.AURORA);
                     context.sendBroadcast(i);
 
-                    Intent iN = new Intent(MAKE_NOTIFICATION);
+                    Intent iN = new Intent(Constants.MAKE_NOTIFICATION);
                     context.sendBroadcast(iN);
                 } else {
                     // create a broadcast to advise time to update the UI
                     // do not need to send broadcast to create notification
-                    Intent i = new Intent(NOTHING_TO_DECLARE);
+                    Intent i = new Intent(Constants.NOTHING_TO_DECLARE);
                     context.sendBroadcast(i);
                 }
             }
@@ -356,25 +345,25 @@ public class ClearSkiesService extends IntentService {
             if (issSuccess) {
 
                 if (auroraSuccess) {
-                    Intent i = new Intent(AURORA_ISS);
+                    Intent i = new Intent(Constants.AURORA_ISS);
                     context.sendBroadcast(i);
-                    Intent iN = new Intent(MAKE_NOTIFICATION);
+                    Intent iN = new Intent(Constants.MAKE_NOTIFICATION);
                     context.sendBroadcast(iN);
                 } else {
-                    Intent i = new Intent(ISS);
+                    Intent i = new Intent(Constants.ISS);
                     context.sendBroadcast(i);
-                    Intent iN = new Intent(MAKE_NOTIFICATION);
+                    Intent iN = new Intent(Constants.MAKE_NOTIFICATION);
                     context.sendBroadcast(iN);
                 }
 
             } else if (auroraSuccess){
-                Intent i = new Intent(AURORA);
+                Intent i = new Intent(Constants.AURORA);
                 context.sendBroadcast(i);
-                Intent iN = new Intent(MAKE_NOTIFICATION);
+                Intent iN = new Intent(Constants.MAKE_NOTIFICATION);
                 context.sendBroadcast(iN);
 
             } else {
-                Intent iA = new Intent(NOTHING_TO_DECLARE);
+                Intent iA = new Intent(Constants.NOTHING_TO_DECLARE);
                 context.sendBroadcast(iA);
             }
         }
@@ -423,7 +412,7 @@ public class ClearSkiesService extends IntentService {
             // Clear data from the ArrayLists used to update the UI
             Utility.clearArrayLists();
 
-            Utility.updateArrayLists(NEXT_UPDATE, nextUpdate, alarmPref, 0);
+            Utility.updateArrayLists(Constants.NEXT_UPDATE, nextUpdate, alarmPref, 0);
 
             // Notify the CustomAdapter that the dataset has changed
             MainActivity.testBaseCustomAdapter.notifyDataSetChanged();
@@ -478,7 +467,7 @@ public class ClearSkiesService extends IntentService {
 
             // REPOPULATE THE ARRAYLISTS DEPENDING ON RESULTS
             Utility.updateArrayLists(textLocation, "Nothing", "To Declare", 0);
-            Utility.updateArrayLists(NEXT_UPDATE, nextUpdate, alarmPref, 1);
+            Utility.updateArrayLists(Constants.NEXT_UPDATE, nextUpdate, alarmPref, 1);
 
             MainActivity.testBaseCustomAdapter.notifyDataSetChanged();
         }
@@ -558,7 +547,7 @@ public class ClearSkiesService extends IntentService {
 
             // REPOPULATE THE ARRAYLISTS DEPENDING ON RESULTS
             Utility.updateArrayLists("Currently", "Out", "of Range", 0);
-            Utility.updateArrayLists(NEXT_UPDATE, nextUpdate, alarmPref, 1);
+            Utility.updateArrayLists(Constants.NEXT_UPDATE, nextUpdate, alarmPref, 1);
 
             MainActivity.testBaseCustomAdapter.notifyDataSetChanged();
 
@@ -641,7 +630,7 @@ public class ClearSkiesService extends IntentService {
             // REPOPULATE THE ARRAYLISTS DEPENDING ON RESULTS
             Utility.updateArrayLists(textLocation, "Aurora", auroraForecast, 0);
             Utility.updateArrayLists(weatherSummary, sunsetTonight, sunriseTom, 1);
-            Utility.updateArrayLists(NEXT_UPDATE, nextUpdate, alarmPref, 1);
+            Utility.updateArrayLists(Constants.NEXT_UPDATE, nextUpdate, alarmPref, 1);
             MainActivity.testBaseCustomAdapter.notifyDataSetChanged();
 
             // LOOKING AT THE GATHERED DATA FOR LOGGING
@@ -728,7 +717,7 @@ public class ClearSkiesService extends IntentService {
             // REPOPULATE THE ARRAYLISTS DEPENDING ON RESULTS
             Utility.updateArrayLists(textLocation, "ISS", issForecast, 0);
             Utility.updateArrayLists(weatherSummary, sunsetTonight, sunriseTom, 1);
-            Utility.updateArrayLists(NEXT_UPDATE, nextUpdate, alarmPref, 1);
+            Utility.updateArrayLists(Constants.NEXT_UPDATE, nextUpdate, alarmPref, 1);
 
             MainActivity.testBaseCustomAdapter.notifyDataSetChanged();
 
@@ -817,7 +806,7 @@ public class ClearSkiesService extends IntentService {
             Utility.updateArrayLists(textLocation, "Aurora", auroraForecast, 0);
             Utility.updateArrayLists(textLocation, "ISS", issForecast, 0);
             Utility.updateArrayLists(weatherSummary, sunsetTonight, sunriseTom, 1);
-            Utility.updateArrayLists(NEXT_UPDATE, nextUpdate, alarmPref, 1);
+            Utility.updateArrayLists(Constants.NEXT_UPDATE, nextUpdate, alarmPref, 1);
 
             MainActivity.testBaseCustomAdapter.notifyDataSetChanged();
 

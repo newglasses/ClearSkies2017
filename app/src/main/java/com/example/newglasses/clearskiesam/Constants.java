@@ -4,7 +4,7 @@ package com.example.newglasses.clearskiesam;
  * Created by annem on 17/04/2017.
  */
 
-public final class Constants {
+public class Constants {
 
     public final static int GET = 1;
     public final static int POST = 2;
